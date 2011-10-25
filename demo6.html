@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Utility Functions: MixedCollection</title>
+    
+        <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+        <script type="text/javascript" src="../../bootstrap.js"></script>
+        <script type="text/javascript">
+            Ext.onReady(function() {
+                var sampleData = [{
+                    firstname: 'Aaron',
+                    lastname: 'Conran',
+                    company: 'Sencha',
+                    twitter: 'aconran',
+                    session: 'Building Touch Apps with Designer'
+                },{
+                    firstname: 'Jamie',
+                    lastname: 'Avins',
+                    company: 'Sencha',
+                    twitter: 'jamieavins',
+                    session: 'Migrating from Touch 1.x to 2.0'
+                },{
+                    firstname: 'Rich',
+                    lastname: 'Waters',
+                    company: 'Extnd LLC',
+                    twitter: 'rwaters',
+                    session: 'Ext JS 4: Advanced Expert Techniques'
+                },{
+                    firstname: 'Ariya',
+                    lastname: 'Hidayat',
+                    company: 'Sencha',
+                    twitter: 'ariyahidayat',
+                    session: 'Hacking WebKit & Its JavaScript Engines'
+                },{
+                    firstname: 'Ashvin',
+                    lastname: 'Radiya',
+                    company: 'Avantsoft Inc.',
+                    twitter: '',
+                    session: 'Community Code: Pega'
+                },{
+                    firstname: 'Cyrus',
+                    lastname: 'Mistry',
+                    company: 'Google',
+                    twitter: 'mistrycy',
+                    session: 'Keynote'
+                },{
+                    firstname: 'Jay',
+                    lastname: 'Garcia',
+                    company: 'Modus Create',
+                    twitter: '_jdg',
+                    session: 'Community Code: The SenchaCon App'
+                }];
+                
+                var mixedCollection = Ext.create('Ext.util.MixedCollection', false, function(object){
+                    return object.firstname + ' ' + object.lastname
+                });
+                mixedCollection.addAll(sampleData);
+                
+                var panel = Ext.create('Ext.panel.Panel', {
+                    renderTo: document.body,
+                    width: 400,
+                    height: 200,
+                    tpl: [
+                        '<tpl for=".">',
+                            '<div>{firstname} {lastname}</div>',
+                        '</tpl>'
+                    ],
+                    data: mixedCollection.getRange(),
+                    dockedItems: [{
+                        dock: 'bottom',
+                        xtype: 'toolbar',
+                        items: [{
+                            text: 'Sort on FirstName',
+                            handler: function() {
+                                mixedCollection.sort('firstname', 'ASC');
+                                panel.update(mixedCollection.getRange());
+                            }
+                        },{
+                            text: 'Sort on Twitter',
+                            handler: function() {
+                                mixedCollection.sort('twitter', 'ASC');
+                                panel.update(mixedCollection.getRange());
+                            }
+                        }]
+                    }]
+                });
+                
+                
+            });
+            
+
+        </script>
+        
+        <style type="text/css">
+            body {
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+    </body>
+</html>

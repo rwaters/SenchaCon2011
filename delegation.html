@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Event Delegation</title>
+    
+        <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+        <script type="text/javascript" src="../../bootstrap.js"></script>
+        
+        <style type="text/css">
+            p {
+                padding-left: 15px;
+            }
+            .color {
+                width: 200px;
+                height: 30px;
+                margin: 10px;
+                color: white;
+                padding: 5px;
+            }
+            #red {
+                background-color: red;
+            }
+            #green {
+                background-color: green;
+            }
+            #blue {
+                background-color: blue;
+            }
+        </style>
+        <script type="text/javascript">
+            Ext.onReady(function() {
+                // Not Delegation
+                Ext.get('red').on('click', function(event, target) {
+                    console.log('red clicked!', target);
+                });
+                Ext.get('green').on('click', function(event, target) {
+                    console.log('green clicked!', target);
+                });
+                Ext.get('blue').on('click', function(event, target) {
+                    console.log('blue clicked! - note this target is different', target);
+                });
+                
+                // Delegated!
+                // Manual
+                // Ext.get('colors').on('click', function(event, target) {
+                    // var el = event.getTarget('div.color');
+                    // console.log('colors clicked! Target:', target, 'delegated target:', el);
+                // });
+                
+                // Built-in
+                // Ext.get('colors').on('click', function(event, target) {
+                    // console.log('')
+                // }, null, {delegate: 'div.color'});
+            });
+        </script>
+    </head>
+    <body>
+        <div id="colors">
+            <div id="red" class="color">red</div>
+            <div id="green" class="color">green</div>
+            <div id="blue" class="color"><p>blue</p></div>
+        </div>
+    </body>
+</html>

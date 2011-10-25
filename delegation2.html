@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Event Delegation</title>
+    
+        <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+        <script type="text/javascript" src="../../bootstrap.js"></script>
+        
+        <style type="text/css">
+            .color {
+                width: 100px;
+                height: 100px;
+                margin: 10px;
+                color: white;
+                padding: 10px;
+                background-color: #A1C1E9;
+                float: left;
+            }
+            .color-selected {
+                background-color: blue;
+            }
+        </style>
+        <script type="text/javascript">
+            Ext.onReady(function() {
+                Ext.create('Ext.view.View',{
+                    renderTo: document.body,
+                    height: 300,
+                    width: 400,
+                    tpl: [
+                        '<tpl for=".">',
+                            '<div class="color">',
+                                '<p>{firstname} {lastname}</p>',
+                                '<p>{twitter}</p>',
+                            '</div>',
+                        '</tpl>'
+                    ],
+                    store: Ext.create('Ext.data.Store',{
+                        fields: ['firstname', 'lastname', 'company', 'title', 'twitter'],
+                        data: Demo.sampleData
+                    }),
+                    itemSelector: 'div.color',
+                    selectedItemCls: 'color-selected',
+                    listeners: {
+                        itemclick: function(view, record, domNode, index, event) {
+                            console.log('item clicked!', domNode);
+                        }
+                    }
+                })
+            });
+            
+            Demo = {
+                sampleData: [{
+                    firstname: 'Aaron',
+                    lastname: 'Conran',
+                    company: 'Sencha',
+                    twitter: 'aconran'
+                },{
+                    firstname: 'Jamie',
+                    lastname: 'Avins',
+                    company: 'Sencha',
+                    twitter: 'jamieavins'
+                },{
+                    firstname: 'Rich',
+                    lastname: 'Waters',
+                    company: 'Extnd LLC',
+                    twitter: 'rwaters'
+                },{
+                    firstname: 'Ariya',
+                    lastname: 'Hidayat',
+                    company: 'Sencha',
+                    twitter: 'ariyahidayat'
+                },{
+                    firstname: 'Ashvin',
+                    lastname: 'Radiya',
+                    company: 'Avantsoft Inc.',
+                    twitter: ''
+                },{
+                    firstname: 'Cyrus',
+                    lastname: 'Mistry',
+                    company: 'Google',
+                    twitter: 'mistrycy'
+                },{
+                    firstname: 'Jay',
+                    lastname: 'Garcia',
+                    company: 'Modus Create',
+                    twitter: '_jdg'
+                }]
+            };
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
