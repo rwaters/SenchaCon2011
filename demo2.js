@@ -1,10 +1,10 @@
 /*
- * Rewrite to utilize renderTpl, renderData, childEl, 
+ * Rewrite to utilize renderTpl, renderData, childEl,
  * afterRenderEvents using mon & event delegation, qtips
  */
-Ext.onReady(function(){
+Ext.onReady(function() {
     Ext.tip.QuickTipManager.init();
-    Ext.create('Ext.form.Panel',{
+    Ext.create('Ext.form.Panel', {
         height: 200,
         width: 300,
         renderTo: document.body,
@@ -24,7 +24,7 @@ Ext.onReady(function(){
             renderData: {
                 sectionLabel: 'Label From renderData'
             }
-        },{
+        }, {
             xtype: 'fieldwrapper',
             id: 'wrapper2',
             items: [{
@@ -35,13 +35,13 @@ Ext.onReady(function(){
             }]
         }]
     });
-    
+
     // Ext.getCmp('wrapper1').setLabel('Label 1');
     Ext.getCmp('wrapper2').setLabel('Another Label!');
 });
 
 
-Ext.define('Demo.FieldWrapper',{
+Ext.define('Demo.FieldWrapper', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.fieldwrapper',
     baseCls: 'transparent-panel',
@@ -49,9 +49,10 @@ Ext.define('Demo.FieldWrapper',{
     padding: '0 0 11 0',
     bodyPadding: '20 0 0 5',
     margin: 5,
-    
+
     initComponent: function() {
-        var renderTpl = this.renderTpl;
+        var me        = this,
+            renderTpl = me.renderTpl;
         /*
         steal built in default renderTpl from abstractPanel and prepend/append extra html
         '<div id="{id}-body" class="{baseCls}-body<tpl if="bodyCls"> {bodyCls}</tpl>',
@@ -60,54 +61,54 @@ Ext.define('Demo.FieldWrapper',{
             '</tpl>"<tpl if="bodyStyle"> style="{bodyStyle}"</tpl>>',
         '</div>',
         */
-        this.renderTpl = ['<div id="{id}-panelLabelEl" class="section-label">{sectionLabel}</div>',
-        '<img src="close.png" action="delete" class="delete" data-qtip="Delete this section" data-qwidth="100"/>',
-        '<img src="duplicate.png" action="duplicate" class="duplicate" data-qtip="Duplicate this section" data-qwidth="120"/>' + renderTpl.html];
-        
-        this.renderTpl.push('<img src="down.png" action="down" class="down" data-qtip="Move this section down" data-qwidth="125"/>');
-        this.renderTpl.push('<img src="up.png" action="up" class="up" data-qtip="Move this section up" data-qwidth="110" />');
+        me.renderTpl = [
+            '<div id="{id}-panelLabelEl" class="section-label">{sectionLabel}</div>', 
+                '<img src="close.png" action="delete" class="delete" data-qtip="Delete this section" data-qwidth="100"/>', 
+                '<img src="duplicate.png" action="duplicate" class="duplicate" data-qtip="Duplicate this section" data-qwidth="120"/>' + renderTpl.html
+        ];
 
-        this.addChildEls('panelLabelEl');
-        
-        this.afterRenderEvents = {
+        me.renderTpl.push('<img src="down.png" action="down" class="down" data-qtip="Move this section down" data-qwidth="125"/>');
+        me.renderTpl.push('<img src="up.png" action="up" class="up" data-qtip="Move this section up" data-qwidth="110" />');
+
+        me.addChildEls('panelLabelEl');
+
+        me.afterRenderEvents = {
             el: {
                 click: {
                     fn: function(e, t) {
-                        var action = t.attributes.action.value,
-                            action = action.charAt(0).toUpperCase() + action.substring(1);
-                        this['on'+action]();
+                        var action = t.attributes.action.value;
+                        me['on' + action.charAt(0).toUpperCase() + action.substring(1)]();
                     },
-                    scope: this,
                     delegate: 'img[action]'
                 }
             }
         };
 
-        this.callParent();
+        me.callParent();
     },
-    
+
     onDuplicate: function() {
         console.log('duplicate');
         // duplicate component and insert another sibling
     },
-    
+
     onDelete: function() {
         console.log('delete');
         // destroy & remove component
     },
-    
+
     onUp: function() {
         console.log('move up');
         // remove/insert above previous sibling
         // toggle state of buttons if needed
     },
-    
+
     onDown: function() {
         console.log('move down');
         // remove/insert below next sibling
         // toggle state of buttons if needed
     },
-    
+
     setLabel: function(label) {
         this.panelLabelEl.update(label);
     }
